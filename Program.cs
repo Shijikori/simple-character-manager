@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using static System.Diagnostics.Debug;
+
 class Distance {
     public int Value = 0;
     public float ConversionFactorFT = 5.0F;
@@ -68,27 +70,100 @@ class Shape {
 }
 
 class Character {
-    public int STR = 0;
-    public int DEX = 0;
-    public int CON = 0;
-    public int INT = 0;
-    public int WIS = 0;
-    public int CHA = 0;
-    public Distance SPD = new Distance(0);
+    private int[] _abilityScores = new int[6]{ 0, 0, 0, 0, 0, 0}; 
     public int LVL = 1;
-    public float ConversionFactorFT = 5.0F;
-    public float ConversionFactorM = 1.5F;
+    
+    public int STR {
+        get {
+            return _abilityScores[0];
+        }
+        set {
+            Assert(value >= 0);
+            _abilityScores[0] = value;
+        }
+    }
+    
+    public int DEX {
+        get {
+            return _abilityScores[1];
+        }
+        set {
+            Assert(value >= 0);
+            _abilityScores[1] = value;
+        }
+    }
+    
+    public int CON {
+        get {
+            return _abilityScores[2];
+        }
+        set {
+            Assert(value >= 0);
+            _abilityScores[2] = value;
+        }
+    }
+    
+    public int INT {
+        get {
+            return _abilityScores[3];
+        }
+        set {
+            Assert(value >= 0);
+            _abilityScores[3] = value;
+        }
+    }
+    
+    public int WIS {
+        get {
+            return _abilityScores[4];
+        }
+        set {
+            Assert(value >= 0);
+            _abilityScores[4] = value;
+        }
+    }
+    
+    public int CHA {
+        get {
+            return _abilityScores[5];
+        }
+        set {
+            Assert(value >= 0);
+            _abilityScores[5] = value;
+        }
+    }
+
+    public Distance SPD = new Distance(0);
     public string Name = "being";
     public string ClassName = "fighter";
 
     public int ArmorClass {
         get {
-            return 10 + GetMod(DEX);
+            return 10 + GetMod(this.DEX);
         }
     }
+    
     public int ProficiencyBonus {
         get {
             return (int)Math.Ceiling((float)LVL / 4.0F) + 1;
+        }
+    }
+
+    public float ConversionFactorM {
+        get {
+            return SPD.ConversionFactorM;
+        }
+        set {
+            SPD.ConversionFactorM = value;
+        }
+    }
+
+    public float ConversionFactorFT {
+        get {
+            return SPD.ConversionFactorFT;
+        }
+        set {
+            SPD.ConversionFactorFT = value;
         }
     }
 
@@ -97,23 +172,25 @@ class Character {
     }
 }
 
-
 // Name, Level, Type, CastingTime, Range, Self (bool), Components (1=V,2=S,4=M), Materials[], Duration, Description
 class Spell {
-    public string Name = "Fireball";
     public int Level = 1;
-    public string CastingTime = "Action";
-    public Distance Range = new Distance(0);
+    public int Components = 7;
     private bool _self = false;
+    public string CastingTime = "Action";
+    public string Name = "Fireball";
+    public Distance Range = new Distance(0);
+    
     public bool Self {
         get {
             return _self;
         }
     }
-    public int Components = 7;
+
     public List<string> Materials = new List<string>();
     public string Duration = "Instant";
     public string Description = "A fireball, does 1d8 damage in a Line plus 1d8 per slot level above spell level.";
+    public string ReferencePage = "p356";
 }
 
 class SCManager {
