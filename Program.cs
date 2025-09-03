@@ -91,7 +91,7 @@ class Shape {
     }
 }
 
-class Character {
+class CharacterOld {
     private int[] _abilityScores = new int[6]{ 0, 0, 0, 0, 0, 0}; 
     public int LVL = 1;
     
@@ -193,6 +193,34 @@ class Character {
         return (int)Math.Floor( ((float)ability - 10.0F) / 2.0F);
     }
 }
+
+class Ability {
+    public string Name = "";
+    public string Description = "";
+    public bool Usable = false;
+    public int Uses = 0; // uses according to condition
+    public string Condition = ""; // restore uses
+    public int MaxUses = 0;
+
+    public void Rest() {
+        Uses = 0;
+    }
+}
+
+class CharClass {
+    public string Name = "commoner";
+    public int Level = 1;
+    public List<Ability> Abilities = new List<Ability>();
+    // spell slots... i think it should be some kind of dictionary but i need to research that solution further
+}
+
+class Character {
+    public string Name = "";
+    public string Player = "";
+    public Distance Speed = new Distance(0);
+    public List<CharClass> Classes = new List<CharClass>();
+}
+
 
 // Name, Level, Type, CastingTime, Range, Self (bool), Components (1=V,2=S,4=M), Materials[], Duration, Description
 class Spell {
