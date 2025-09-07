@@ -214,11 +214,24 @@ class CharClass {
     // spell slots... i think it should be some kind of dictionary but i need to research that solution further
 }
 
+class Item {
+    public string Name = "";
+    public int Value = 0;
+    public string Description = "";
+    public bool IsEquipment = false;
+    public bool IsEquiped = false;
+    public string Bonus = ""; // would be "AC=5+DEX", "AC+5" or "MOD+1"
+    public string Custom = ""; //specify any additional custom rules in that field such as additionnal damage
+}
+
 class Character {
     public string Name = "";
     public string Player = "";
+    public int HitPoints = 8;
     public Distance Speed = new Distance(0);
     public List<CharClass> Classes = new List<CharClass>();
+    public List<Item> Items = new List<Item>();
+    public int Wealth = 0;
 }
 
 
@@ -231,9 +244,9 @@ class Spell {
     public string Name = "Fireball";
     public Distance Range = new Distance(0);
     
-    public bool Self {
+    public bool IsTouch {
         get {
-            return _self;
+            return !_self;
         }
     }
 
@@ -244,12 +257,9 @@ class Spell {
 }
 
 class SCManager {
+    private List<Spell> MasterSpellBook = new List<Spell>();
+    private List<CharClass> ClassRegistry = new List<CharClass>();
     static void Main(string[] args) {
-        Console.WriteLine("Hello, World!");
-        Distance td = Distance.Parse("30ft");
-        Console.WriteLine($"{td.Value}u|{td.GetM()}m|{td.GetFT()}ft");
-        Shape ts = Shape.Parse("S(t:Sphere,s:5u)");
-        Console.WriteLine($"t:{ts.Type}|s:{ts.Size.Serialize()}|e:{ts.Serialize()}");
+        Console.WriteLine("yellow huie");
     }
 }
-
