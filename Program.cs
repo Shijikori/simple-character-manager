@@ -2,23 +2,19 @@
 
 using static System.Diagnostics.Debug;
 
+/*
+ * Distance object helps store data about any kind of measurement. It converts inputs in feet or meters to units. It can also be provided a unit measurement for parsing
+ * ConversionFactors allow for adjusting the conversion factor if different conversions are used by the user. It defaults to community-agreed conversions for D&D.
+ */
 class Distance {
-    public int Value = 0;
+    public int Units = 0;
     public float ConversionFactorFT = 5.0F;
     public float ConversionFactorM = 1.5F;
     
-    public Distance() {
-        Value = 0;
-        ConversionFactorFT = 5.0F;
-        ConversionFactorM = 1.5F;
-    }
-
-    public Distance(int value) {
-        Value = value;
-    }
-
-    public static Distance Parse(string distance) {
+    public static Distance Parse(string distance, float convFactorFT=5.0F, float convFactorM=1.5F) {
         Distance tdist = new Distance();
+        tdist.ConversionFactorFT = convFactorFT;
+        tdist.ConversionFactorM = convFactorM;
         if (distance.IndexOf("ft") > 0) {
             tdist.SetFT((float)Int32.Parse(distance.Substring(0, distance.IndexOf("ft"))));
         }
@@ -26,29 +22,29 @@ class Distance {
             tdist.SetM((float)Int32.Parse(distance.Substring(0, distance.IndexOf("m"))));
         }
         else if (distance.IndexOf("u") > 0) {
-            tdist.Value = Int32.Parse(distance.Substring(0, distance.IndexOf("u")));
+            tdist.Units = Int32.Parse(distance.Substring(0, distance.IndexOf("u")));
         }
         return tdist;
     }
 
     public void SetFT(float feetDist) {
-        Value = (int)(feetDist / ConversionFactorFT);
+        Units = (int)(feetDist / ConversionFactorFT);
     }
 
     public void SetM(float meterDist) {
-        Value = (int)(meterDist / ConversionFactorM);
+        Units = (int)(meterDist / ConversionFactorM);
     }
 
     public float GetFT() {
-        return (float)Value * ConversionFactorFT;
+        return (float)Units * ConversionFactorFT;
     }
 
     public float GetM() {
-        return (float)Value * ConversionFactorM;
+        return (float)Units * ConversionFactorM;
     }
 
     public string Serialize() {
-        return $"{Value}u";
+        return $"{Units}u";
     }
 }
 
@@ -155,7 +151,7 @@ class CharacterOld {
         }
     }
 
-    public Distance SPD = new Distance(0);
+    public Distance SPD = Distance.Parse("0u");
     public string Name = "being";
     public string ClassName = "fighter";
 
@@ -228,7 +224,7 @@ class Character {
     public string Name = "";
     public string Player = "";
     public int HitPoints = 8;
-    public Distance Speed = new Distance(0);
+    public Distance Speed = Distance.Parse("6u");
     public List<CharClass> Classes = new List<CharClass>();
     public List<Item> Items = new List<Item>();
     public int Wealth = 0;
@@ -242,7 +238,7 @@ class Spell {
     private bool _self = false;
     public string CastingTime = "Action";
     public string Name = "Fireball";
-    public Distance Range = new Distance(0);
+    public Distance Range = Distance.Parse("0u");
     
     public bool IsTouch {
         get {
