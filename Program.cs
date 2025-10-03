@@ -87,149 +87,14 @@ class Shape {
     }
 }
 
-class CharacterOld {
-    private int[] _abilityScores = new int[6]{ 0, 0, 0, 0, 0, 0}; 
-    public int LVL = 1;
-    
-    public int STR {
-        get {
-            return _abilityScores[0];
-        }
-        set {
-            Assert(value >= 0);
-            _abilityScores[0] = value;
-        }
-    }
-    
-    public int DEX {
-        get {
-            return _abilityScores[1];
-        }
-        set {
-            Assert(value >= 0);
-            _abilityScores[1] = value;
-        }
-    }
-    
-    public int CON {
-        get {
-            return _abilityScores[2];
-        }
-        set {
-            Assert(value >= 0);
-            _abilityScores[2] = value;
-        }
-    }
-    
-    public int INT {
-        get {
-            return _abilityScores[3];
-        }
-        set {
-            Assert(value >= 0);
-            _abilityScores[3] = value;
-        }
-    }
-    
-    public int WIS {
-        get {
-            return _abilityScores[4];
-        }
-        set {
-            Assert(value >= 0);
-            _abilityScores[4] = value;
-        }
-    }
-    
-    public int CHA {
-        get {
-            return _abilityScores[5];
-        }
-        set {
-            Assert(value >= 0);
-            _abilityScores[5] = value;
-        }
-    }
-
-    public Distance SPD = Distance.Parse("0u");
-    public string Name = "being";
-    public string ClassName = "fighter";
-
-    public int ArmorClass {
-        get {
-            return 10 + GetMod(this.DEX);
-        }
-    }
-    
-    public int ProficiencyBonus {
-        get {
-            return (int)Math.Ceiling((float)LVL / 4.0F) + 1;
-        }
-    }
-
-    public float ConversionFactorM {
-        get {
-            return SPD.ConversionFactorM;
-        }
-        set {
-            SPD.ConversionFactorM = value;
-        }
-    }
-
-    public float ConversionFactorFT {
-        get {
-            return SPD.ConversionFactorFT;
-        }
-        set {
-            SPD.ConversionFactorFT = value;
-        }
-    }
-
-    public int GetMod(int ability) {
-        return (int)Math.Floor( ((float)ability - 10.0F) / 2.0F);
+/*
+ * Preserving this bit of code because I know it was annoying to get at and will be useful
+public int ProficiencyBonus {
+    get {
+        return (int)Math.Ceiling((float)LVL / 4.0F) + 1;
     }
 }
-
-class Ability {
-    public string Name = "";
-    public string Description = "";
-    public bool Usable = false;
-    public int Uses = 0; // uses according to condition
-    public string Condition = ""; // restore uses
-    public int MaxUses = 0;
-
-    public void Rest() {
-        Uses = 0;
-    }
-}
-
-class CharClass {
-    public string Name = "commoner";
-    public int Level = 1;
-    public List<Ability> Abilities = new List<Ability>();
-    // spell slots... i think it should be some kind of dictionary but i need to research that solution further
-}
-
-class Item {
-    public string Name = "";
-    public int Value = 0;
-    public string Description = "";
-    public bool IsEquipment = false;
-    public bool IsEquiped = false;
-    public string Bonus = ""; // would be "AC=5+DEX", "AC+5" or "MOD+1"
-    public string Custom = ""; //specify any additional custom rules in that field such as additionnal damage
-}
-
-class Character {
-    public string Name = "";
-    public string Player = "";
-    public int HitPoints = 8;
-    public Distance Speed = Distance.Parse("6u");
-    public List<CharClass> Classes = new List<CharClass>();
-    public List<Item> Items = new List<Item>();
-    public int Wealth = 0;
-}
-
+*/
 
 // Name, Level, Type, CastingTime, Range, Self (bool), Components (1=V,2=S,4=M), Materials[], Duration, Description
 class Spell {
@@ -252,9 +117,114 @@ class Spell {
     public string ReferencePage = "p356";
 }
 
+// interface of items to allow for making different kinds of items accessible with the same interface
+interface IItem {
+    string Name { get; set; }
+    string Description { get; set; }
+    bool IsSpellBook { get; }
+}
+
+class SpellBook : IItem {
+    private string _name = "";
+    private string _description = "";
+
+    public string Name {
+        get {
+            return _name;
+        }
+        set {
+            _name = value;
+        }
+    }
+    public string Description {
+        get {
+            return _description;
+        }
+        set {
+            _description = value;
+        }
+    }
+    public bool IsSpellBook {
+        get {
+            return true;
+        }
+    }
+
+    public List<Spell> Spells = new List<Spell>();
+}
+
+class Item : IItem {
+    private string _name = "";
+    private string _description = "";
+
+    public string Name {
+        get {
+            return _name;
+        }
+        set {
+            _name = value;
+        }
+    }
+    public string Value = "";
+    public string Description {
+        get {
+            return _description;
+        }
+        set {
+            _description = value;
+        }
+    }
+    public bool IsEquipment = false;
+    public bool IsEquiped = false;
+    public bool IsSpellBook {
+        get {
+            return false;
+        }
+    }
+    public string Bonus = ""; // would be "AC=5+DEX", "AC+5" or "MOD+1"
+    public string Custom = ""; //specify any additional custom rules in that field such as additionnal damage
+}
+
+class CharacterClass {
+    public string Name = "";
+    public int Level = 1;
+    public int PrimaryAbility = 0;
+}
+
+struct Abilities {
+    public int STR;
+    public int DEX;
+    public int CON;
+    public int INT;
+    public int WIS;
+    public int CHA;
+}
+
+class CharacterSheet {
+    public string PlayerName = "";
+    public string Name = "";
+    public Abilities Abilities = new Abilities();
+    public List<Item> Items = new List<Item>();
+
+    public void AssignScores(int nSTR, int nDEX, int nCON, int nINT, int nWIS, int nCHA) {
+        Abilities.STR = nSTR;
+        Abilities.DEX = nDEX;
+        Abilities.CON = nCON;
+        Abilities.INT = nINT;
+        Abilities.WIS = nWIS;
+        Abilities.CHA = nCHA;
+    }
+
+}
+
 class SCManager {
     private List<Spell> MasterSpellBook = new List<Spell>();
-    private List<CharClass> ClassRegistry = new List<CharClass>();
+    private List<CharacterClass> ClassRegistry = new List<CharacterClass>();
+
+    public int GetMod(int score) {
+         return (int)Math.Floor( ((float)score - 10.0F) / 2.0F);
+    }
+
     static void Main(string[] args) {
         Console.WriteLine("yellow huie");
     }
