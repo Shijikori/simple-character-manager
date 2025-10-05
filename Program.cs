@@ -100,14 +100,19 @@ public int ProficiencyBonus {
 class Spell {
     public int Level = 1;
     public int Components = 7;
-    private bool _self = false;
     public string CastingTime = "Action";
     public string Name = "Fireball";
     public Distance Range = Distance.Parse("0u");
     
     public bool IsTouch {
         get {
-            return !_self;
+            return Range.Units == 1;
+        }
+    }
+
+    public bool IsSelf {
+        get {
+            return Range.Units == 0;
         }
     }
 
