@@ -97,6 +97,12 @@ public struct Wallet {
     public int GP { get; private set; }
     /// <value>Property <c>PP</c> stands for <c>Platinum Pieces</c></value>
     public int PP { get; private set; }
+    /// <value>Property <c>Weight</c> is the total weight of the wallet in pounds (lbs)</value>
+    public float Weight {
+        get {
+            return (CP + SP + EP + GP + PP) * 0.02f;
+        }
+    }
 
     public Wallet() {
         CP = 0;
