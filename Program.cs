@@ -83,6 +83,82 @@ class Distance {
     }
 }
 
+/// <summary>
+/// Struct <c>Wallet</c> represents a collection of coin(s)
+/// </summary>
+public struct Wallet {
+    /// <value>Property <c>CP</c> stands for <c>Copper Pieces</c></value>
+    public int CP { get; private set; }
+    /// <value>Property <c>SP</c> stands for <c>Silver Piecess</c></value>
+    public int SP { get; private set; }
+    /// <value>Property <c>EP</c> stands for <c>Electrum Pieces</c></value>
+    public int EP { get; private set; }
+    /// <value>Property <c>GP</c> stands for <c>Gold Pieces</c></value>
+    public int GP { get; private set; }
+    /// <value>Property <c>PP</c> stands for <c>Platinum Pieces</c></value>
+    public int PP { get; private set; }
+
+    public Wallet() {
+        CP = 0;
+        SP = 0;
+        EP = 0;
+        GP = 0;
+        PP = 0;
+    }
+
+    public Wallet(int pp, int gp, int ep, int sp, int cp) {
+        CP = cp;
+        SP = sp;
+        EP = ep;
+        GP = gp;
+        PP = pp;
+    }
+
+    /// <summary>
+    /// Method <c>Add</c> adds the contents of another Wallet Object into this Wallet
+    /// </summary>
+    /// <param name="val">the wallet containing the value change</param>
+    public void Add(Wallet val) {
+        this.PP += val.PP;
+        this.GP += val.GP;
+        this.EP += val.EP;
+        this.SP += val.SP;
+        this.CP += val.CP;
+    }
+
+    /// <summary>
+    /// Method <c>Subtract</c> subtracts the contents of another Wallet Object from this Wallet
+    /// </summary>
+    /// <param name="val">the wallet containing the values subtracted</param>
+    public void Subtract(Wallet val) {
+        this.PP -= val.PP;
+        this.GP -= val.GP;
+        this.EP -= val.EP;
+        this.SP -= val.SP;
+        this.CP -= val.CP;
+    }
+
+    /// <summary>
+    /// Method <c>Pay</c> subtracts another Wallet Object from this Wallet but prevents negatives
+    /// </summary>
+    /// <param name="cost">the wallet containing the payment value</param>
+    /// <returns>
+    /// A boolean <c>True</c> if the operation succeeded. The value will be <c>False</c> if it failed. The wallet of the parameter <c>cost</c> will not be applied to this object.
+    /// </returns>
+    public bool Pay(Wallet cost) {
+        Wallet tWall = new Wallet();
+        tWall.Add(this);
+        tWall.Subtract(cost);
+        if (tWall.PP >= 0 && tWall.GP >= 0 && tWall.EP >= 0 && tWall.SP >= 0 && tWall.CP >= 0) {
+            this.Subtract(cost);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
 class Shape {
     public string Type = "Sphere";
     public Distance Size = new Distance();
