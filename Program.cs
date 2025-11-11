@@ -3,7 +3,7 @@
 /// <summary>
 /// Class <c>Distance</c> represents the data of any range or distance.
 /// </summary>
-class Distance {
+public class Distance {
     /// <value>Property <c>Units</c> represents the value stored in units</value>
     public int Units = 0;
     /// <value>Property <c>ConversionFactorFT</c> represents the conversion factor used for imperial units</value>
@@ -165,6 +165,74 @@ public struct Wallet {
     }
 }
 
+/// <summary>
+/// The item categories where Generic is for common items. Other catgories describe the kind of item.
+/// </summary>
+public enum ItemCategory {
+    Generic,
+    Magic,
+    Consumable,
+    Armour,
+    Weapon
+}
+
+/// <summary>
+/// Class <c>CustomAttribute</c> represents a custom attribute to be added to an Item object
+/// <summary/>
+public class CustomAttribute {
+    public string Description { get; set; } = string.Empty;
+    public string DiceNotion { get; set; } = string.Empty;
+    public int? MaxCharges { get; set; }
+    public int? ChargesRemaining { get; set; }
+    public int? Duration { get; set; }
+}
+
+/// <summary>
+/// Class <c>Item</c> is a generic item
+/// </summary>
+public abstract class Item {
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public ItemCategory Category { get; set; }
+    public Wallet Value { get; set; }
+    public int Weight { get; set; }
+    public bool AttunementRequired { get; set; }
+    public List<CustomAttribute> CustomAttributes { get; set; } = new List<CustomAttribute>();
+}
+
+/// <summary>
+/// Class <c>MeleeWeapon</c> represents a Melee item such as a sword
+/// </summary>
+public class MeleeWeapon : Item {
+    public string DamageDice { get; set; } = string.Empty;
+    public string DamageType { get; set; } = string.Empty;
+    public string Properties { get; set; } = string.Empty;
+    public Distance Reach { get; set; } = Distance.Parse("5u");
+    public int? Bonus { get; set; }
+}
+
+/// <summary>
+/// Class <c>RangedWeapon</c> represents a Ranged weapon such as a bow
+/// </summary>
+public class RangedWeapon : Item {
+    public string DamageDice { get; set; } = string.Empty;
+    public string DamageType { get; set; } = string.Empty;
+    public string Properties { get; set; } = string.Empty;
+    public Distance Range { get; set; } = Distance.Parse("5u");
+    public Distance MaxRange { get; set; } = Distance.Parse("10u");
+    public int? Bonus { get; set; }
+}
+
+/// <summary>
+/// Class <c>MagicItem</c> represents an item which grants a certain magical effect described by the <c>Effect</c> field
+/// </summary>
+public class MagicItem : Item {
+    public int? ChargesRemaining { get; set; }
+    public int? MaxCharges { get; set; }
+    public string Effect { get; set; } = string.Empty;
+}
+
+
 class Shape {
     public string Type = "Sphere";
     public Distance Size = new Distance();
@@ -239,73 +307,6 @@ class Spell {
     public string ReferencePage = "p356";
 }
 
-// interface of items to allow for making different kinds of items accessible with the same interface
-interface IItem {
-    string Name { get; set; }
-    string Description { get; set; }
-    bool IsSpellBook { get; }
-}
-
-class SpellBook : IItem {
-    private string _name = "";
-    private string _description = "";
-
-    public string Name {
-        get {
-            return _name;
-        }
-        set {
-            _name = value;
-        }
-    }
-    public string Description {
-        get {
-            return _description;
-        }
-        set {
-            _description = value;
-        }
-    }
-    public bool IsSpellBook {
-        get {
-            return true;
-        }
-    }
-
-    public List<Spell> Spells = new List<Spell>();
-}
-
-class Item : IItem {
-    private string _name = "";
-    private string _description = "";
-
-    public string Name {
-        get {
-            return _name;
-        }
-        set {
-            _name = value;
-        }
-    }
-    public string Value = "";
-    public string Description {
-        get {
-            return _description;
-        }
-        set {
-            _description = value;
-        }
-    }
-    public bool IsEquipment = false;
-    public bool IsEquiped = false;
-    public bool IsSpellBook {
-        get {
-            return false;
-        }
-    }
-    public string Bonus = ""; // would be "AC=5+DEX", "AC+5" or "MOD+1"
-    public string Custom = ""; //specify any additional custom rules in that field such as additionnal damage
-}
 
 class CharacterClass {
     public string Name = "";
