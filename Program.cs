@@ -83,7 +83,7 @@ public class Distance {
     }
 }
 
-
+// likely not relevant as the information may just be encoded in a spell
 class Shape {
     public string Type = "Sphere";
     public Distance Size = new Distance();
@@ -132,40 +132,13 @@ public int ProficiencyBonus {
 }
 */
 
-// Name, Level, Type, CastingTime, Range, Self (bool), Components (1=V,2=S,4=M), Materials[], Duration, Description
-class Spell {
-    public int Level = 1;
-    public int Components = 7;
-    public string CastingTime = "Action";
-    public string Name = "Fireball";
-    public Distance Range = Distance.Parse("0u");
-    
-    public bool IsTouch {
-        get {
-            return Range.Units == 1;
-        }
-    }
-
-    public bool IsSelf {
-        get {
-            return Range.Units == 0;
-        }
-    }
-
-    public List<string> Materials = new List<string>();
-    public string Duration = "Instant";
-    public string Description = "A fireball, does 1d8 damage in a Line plus 1d8 per slot level above spell level.";
-    public string ReferencePage = "p356";
-}
-
-
 class CharacterClass {
     public string Name = "";
     public int Level = 1;
     public int PrimaryAbility = 0;
 }
 
-struct Abilities {
+public struct Abilities {
     public int STR;
     public int DEX;
     public int CON;
@@ -174,7 +147,7 @@ struct Abilities {
     public int CHA;
 }
 
-class CharacterSheet {
+public class CharacterSheet {
     public string PlayerName = "";
     public string Name = "";
     public Abilities Abilities = new Abilities();
