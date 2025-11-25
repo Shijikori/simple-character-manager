@@ -133,9 +133,9 @@ public int ProficiencyBonus {
 */
 
 class CharacterClass {
-    public string Name = "";
-    public int Level = 1;
-    public int PrimaryAbility = 0;
+    public string Name { get; set; } = string.Empty;
+    public int Level { get; set; }
+    public string PrimaryAbility { get; set; } = string.Empty;
 }
 
 public struct Abilities {
@@ -145,6 +145,35 @@ public struct Abilities {
     public int INT;
     public int WIS;
     public int CHA;
+
+    public int this[string abilityName] {
+        get {
+            switch (abilityName.ToUpper())
+            {
+                case "STR": return STR;
+                case "DEX": return DEX;
+                case "CON": return CON;
+                case "INT": return INT;
+                case "WIS": return WIS;
+                case "CHA": return CHA;
+                default:
+                    throw new ArgumentException("Invalid ability name: " + abilityName);
+            }
+        }
+        set {
+            switch (abilityName.ToUpper())
+            {
+                case "STR": STR = value; break;
+                case "DEX": DEX = value; break;
+                case "CON": CON = value; break;
+                case "INT": INT = value; break;
+                case "WIS": WIS = value; break;
+                case "CHA": CHA = value; break;
+                default:
+                    throw new ArgumentException("Invalid ability name: " + abilityName);
+            }
+        }
+    }
 }
 
 public class CharacterSheet {
@@ -173,8 +202,31 @@ class SCManager {
     }
 
     static void Main(string[] args) {
-        Console.WriteLine("yellow huie");
-        Wallet test = new Wallet(0, 50, 0, 34, 8);
-        Console.WriteLine(test.GP);
+        CharacterClass tcc = new CharacterClass {
+            Name = "rogue",
+            Level = 1,
+            PrimaryAbility = "DEX"
+        };
+        CharacterSheet tcs = new CharacterSheet {
+            PlayerName = "test",
+            Name = "Ivar",
+            Abilities = new Abilities {
+                STR = 10,
+                DEX = 15,
+                CON = 10,
+                INT = 10,
+                WIS = 10,
+                CHA = 10
+            },
+            Items = new List<Item>{
+                new Item {
+                    Name = "Stick",
+                    Category = ItemCategory.Generic,
+                    Weight = 0
+                }
+            }
+        };
+        Console.WriteLine(tcc.Name);
+        Console.WriteLine(tcs.Abilities[tcc.PrimaryAbility]);
     }
 }

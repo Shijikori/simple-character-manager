@@ -92,57 +92,14 @@ public enum ItemCategory {
 }
 
 /// <summary>
-/// Class <c>CustomAttribute</c> represents a custom attribute to be added to an Item object
-/// <summary/>
-public class CustomAttribute {
-    public string Description { get; set; } = string.Empty;
-    public string DiceNotion { get; set; } = string.Empty;
-    public int? MaxCharges { get; set; }
-    public int? ChargesRemaining { get; set; }
-    public int? Duration { get; set; }
-}
-
-/// <summary>
 /// Class <c>Item</c> is a generic item
 /// </summary>
-public abstract class Item {
+public class Item {
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public ItemCategory Category { get; set; }
     public Wallet Value { get; set; }
     public int Weight { get; set; }
     public bool AttunementRequired { get; set; }
-    public List<CustomAttribute> CustomAttributes { get; set; } = new List<CustomAttribute>();
-}
-
-/// <summary>
-/// Class <c>MeleeWeapon</c> represents a Melee item such as a sword
-/// </summary>
-public class MeleeWeapon : Item {
-    public string DamageDice { get; set; } = string.Empty;
-    public string DamageType { get; set; } = string.Empty;
-    public string Properties { get; set; } = string.Empty;
-    public Distance Reach { get; set; } = Distance.Parse("5u");
-    public int? Bonus { get; set; }
-}
-
-/// <summary>
-/// Class <c>RangedWeapon</c> represents a Ranged weapon such as a bow
-/// </summary>
-public class RangedWeapon : Item {
-    public string DamageDice { get; set; } = string.Empty;
-    public string DamageType { get; set; } = string.Empty;
-    public string Properties { get; set; } = string.Empty;
-    public Distance Range { get; set; } = Distance.Parse("5u");
-    public Distance MaxRange { get; set; } = Distance.Parse("10u");
-    public int? Bonus { get; set; }
-}
-
-/// <summary>
-/// Class <c>MagicItem</c> represents an item which grants a certain magical effect described by the <c>Effect</c> field
-/// </summary>
-public class MagicItem : Item {
-    public int? ChargesRemaining { get; set; }
-    public int? MaxCharges { get; set; }
-    public string Effect { get; set; } = string.Empty;
+    public List<Dictionary<string, string>> Attributes { get; set; } = new List<Dictionary<string, string>>();
 }
