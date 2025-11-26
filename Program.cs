@@ -148,8 +148,7 @@ public struct Abilities {
 
     public int this[string abilityName] {
         get {
-            switch (abilityName.ToUpper())
-            {
+            switch (abilityName.ToUpper()) {
                 case "STR": return STR;
                 case "DEX": return DEX;
                 case "CON": return CON;
@@ -161,8 +160,7 @@ public struct Abilities {
             }
         }
         set {
-            switch (abilityName.ToUpper())
-            {
+            switch (abilityName.ToUpper()) {
                 case "STR": STR = value; break;
                 case "DEX": DEX = value; break;
                 case "CON": CON = value; break;
@@ -222,11 +220,13 @@ class SCManager {
                 new Item {
                     Name = "Stick",
                     Category = ItemCategory.Generic,
-                    Weight = 0
+                    Weight = 0.05f,
+                    AttunementRequired = false
                 }
             }
         };
         Console.WriteLine(tcc.Name);
         Console.WriteLine(tcs.Abilities[tcc.PrimaryAbility]);
+        Console.WriteLine(tcs.Items[0].Name);
     }
 }
