@@ -172,21 +172,32 @@ public struct Abilities {
             }
         }
     }
+
+    public int GetMod(int score) {
+        return (int)Math.Floor( ((float)score - 10.0f) / 2.0f );
+    }
 }
 
 public class CharacterSheet {
     public string PlayerName = "";
     public string Name = "";
-    public Abilities Abilities = new Abilities();
+    public Wallet CoinPurse = new Wallet();
+    public Abilities AbilityScores = new Abilities();
     public List<Item> Items = new List<Item>();
 
+    public float MaxCarryWeight {
+        get {
+            return (float)AbilityScores.GetMod(AbilityScores["STR"]) * 15.0f;
+        }
+    }
+
     public void AssignScores(int nSTR, int nDEX, int nCON, int nINT, int nWIS, int nCHA) {
-        Abilities.STR = nSTR;
-        Abilities.DEX = nDEX;
-        Abilities.CON = nCON;
-        Abilities.INT = nINT;
-        Abilities.WIS = nWIS;
-        Abilities.CHA = nCHA;
+        AbilityScores.STR = nSTR;
+        AbilityScores.DEX = nDEX;
+        AbilityScores.CON = nCON;
+        AbilityScores.INT = nINT;
+        AbilityScores.WIS = nWIS;
+        AbilityScores.CHA = nCHA;
     }
 
 }
@@ -194,10 +205,6 @@ public class CharacterSheet {
 class SCManager {
     private List<Spell> MasterSpellBook = new List<Spell>();
     private List<CharacterClass> ClassRegistry = new List<CharacterClass>();
-
-    public int GetMod(int score) {
-         return (int)Math.Floor( ((float)score - 10.0F) / 2.0F);
-    }
 
     static void Main(string[] args) {
         CharacterClass tcc = new CharacterClass {
@@ -208,7 +215,7 @@ class SCManager {
         CharacterSheet tcs = new CharacterSheet {
             PlayerName = "test",
             Name = "Ivar",
-            Abilities = new Abilities {
+            AbilityScores = new Abilities {
                 STR = 10,
                 DEX = 15,
                 CON = 10,
@@ -225,8 +232,40 @@ class SCManager {
                 }
             }
         };
+
+        Item ti = new Item {
+            Name = "Super Stick",
+            Description = "A super strong magical stick!",
+            Category = ItemCategory.Weapon,
+            Value = new Wallet(0, 10, 0, 0, 0),
+            Weight = 0.5f,
+            AttunementRequired = false,
+            Properties = new Dictionary<string, string> {
+                {"DamageDice", "3d8"},
+                {"DamageType", "Magical"},
+                {"Attuned", "true"}
+            },
+            Attributes = new List<Dictionary<string, string>> {
+                new Dictionary<string, string> {
+                    {"AbilityName", "Mega Bonk"},
+                    {"AbilityDescription", "Enlargees the stick for a single attack with boosted blunt damage"},
+                    {"AbilityDice", "1d6"},
+                    {"AbilityUses", "1pd"},
+                    {"AbilityUsed", "0"}
+                }
+            }
+        };
+
         Console.WriteLine(tcc.Name);
-        Console.WriteLine(tcs.Abilities[tcc.PrimaryAbility]);
+        Console.WriteLine(tcs.AbilityScores[tcc.PrimaryAbility]);
         Console.WriteLine(tcs.Items[0].Name);
+
+        Console.WriteLine(ti.Name);
+        Console.WriteLine(ti.Description);
+        Console.WriteLine(ti.Category);
+        Console.WriteLine(ti.Properties["DamageDice"]);
+        Console.WriteLine(ti.Attributes[0]["AbilityName"]);
+        Console.WriteLine(ti.Attributes[0]["AbilityDescription"]);
+        Console.WriteLine(ti.Attributes[0]["AbilityDice"]);
     }
 }
