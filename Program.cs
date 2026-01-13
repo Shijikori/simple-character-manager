@@ -132,10 +132,20 @@ public int ProficiencyBonus {
 }
 */
 
-class CharacterClass {
+public class Feature {
+    public string Name { get; set; } = string.Empty;
+    public int Level { get; set; }
+    public string Source { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public bool IsAbility { get; set; }
+    public Dictionary<string,string> Properties = new Dictionary<string,string>();
+}
+
+public class CharacterClass {
     public string Name { get; set; } = string.Empty;
     public int Level { get; set; }
     public string PrimaryAbility { get; set; } = string.Empty;
+    public List<Feature> Features = new List<Feature>();
 }
 
 public struct Abilities {
@@ -181,9 +191,12 @@ public struct Abilities {
 public class CharacterSheet {
     public string PlayerName = "";
     public string Name = "";
+    public CharacterClass CharClass = new CharacterClass();
     public Wallet CoinPurse = new Wallet();
     public Abilities AbilityScores = new Abilities();
     public List<Item> Items = new List<Item>();
+    public List<Feature> Feats = new List<Feature>();
+    public List<Feature> Traits = new List<Feature>();
 
     public float MaxCarryWeight {
         get {
@@ -199,7 +212,6 @@ public class CharacterSheet {
         AbilityScores.WIS = nWIS;
         AbilityScores.CHA = nCHA;
     }
-
 }
 
 class SCManager {

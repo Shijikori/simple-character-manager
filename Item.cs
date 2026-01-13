@@ -81,7 +81,7 @@ public struct Wallet {
 }
 
 /// <summary>
-/// The item categories where Generic is for common items. Other catgories describe the kind of item.
+/// The item categories where Generic is for common items. Other categories describe the kind of item.
 /// </summary>
 public enum ItemCategory {
     Generic,
