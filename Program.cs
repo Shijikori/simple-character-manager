@@ -123,15 +123,6 @@ class Shape {
     }
 }
 
-/*
- * Preserving this bit of code because I know it was annoying to get at and will be useful
-public int ProficiencyBonus {
-    get {
-        return (int)Math.Ceiling((float)LVL / 4.0F) + 1;
-    }
-}
-*/
-
 public class Feature {
     public string Name { get; set; } = string.Empty;
     public int Level { get; set; }
@@ -199,6 +190,12 @@ public class CharacterSheet {
     public List<Feature> Traits = new List<Feature>();
     public List<Spell> Spells = new List<Spell>();
     public SpellSlot[] SpellSlots = new SpellSlot[9];
+
+    public int ProficiencyBonus {
+        get {
+            return (int)Math.Ceiling((float)CharClass.Level / 4.0f) + 1;
+        }
+    }
 
     public float MaxCarryWeight {
         get {
