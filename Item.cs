@@ -101,8 +101,6 @@ public class Item {
     public Wallet Value { get; set; }
     public float Weight { get; set; }
     public bool AttunementRequired { get; set; }
-    // currently these fields have little use because i need to ponder upon how i will properly implement
-    // the different features of the items.
     public Dictionary<string, string> Properties {get; set; } = new Dictionary<string, string>();
     public List<Dictionary<string, string>> Attributes { get; set; } = new List<Dictionary<string, string>>();
 }

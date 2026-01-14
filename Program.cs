@@ -197,6 +197,8 @@ public class CharacterSheet {
     public List<Item> Items = new List<Item>();
     public List<Feature> Feats = new List<Feature>();
     public List<Feature> Traits = new List<Feature>();
+    public List<Spell> Spells = new List<Spell>();
+    public SpellSlot[] SpellSlots = new SpellSlot[9];
 
     public float MaxCarryWeight {
         get {

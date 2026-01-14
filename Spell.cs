@@ -15,9 +15,9 @@ public class Spell {
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Reference { get; set; } = string.Empty;
+    public int Level {get; set; }
     public string Source { get; set; } = string.Empty;
-    public int Level { get; set; }
-    public int Components {get; set; }
+    public List<char> Components { get; set; } = new List<char>();
     public CastTime CastingTime { get; set; }
     public Distance Range { get; set; } = Distance.Parse("0u");
     public string Shape { get; set; } = string.Empty;
@@ -41,5 +41,42 @@ public class Spell {
         get {
             return Shape != string.Empty;
         }
+    }
+}
+
+/// <summary>
+/// Class <c>SpellSlot</c> represents a spell slot data.
+/// </summary>
+public class SpellSlot {
+    public int Count { get; private set; }
+    public int Total { get; private set; }
+
+    /// <summary>
+    /// Method <c>Use</c> uses a spell slot and reduces the Count accordingly
+    /// </summary>
+    /// <returns>
+    /// A boolean <c>True</c> if a spell slot was expended. <c>False</c> will be returned otherwise.
+    /// </returns>
+    public bool Use() {
+        if (Count < 0) {
+            return false;
+        }
+        Count--;
+        return true;
+    }
+
+    /// <summary>
+    /// Method <c>Rest</c> resets the spell slots to full
+    /// </summary>
+    public void Rest() {
+        Count = Total;
+    }
+
+    /// <summary>
+    /// Method <c>IncreaseTotal</c> increases the total number of slots
+    /// </summary>
+    /// <param name="num">Integer being the number of spell slots to add to the total</param>
+    public void IncreaseTotal(int num) {
+        Total += num;
     }
 }
