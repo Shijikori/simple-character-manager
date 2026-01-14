@@ -1,4 +1,4 @@
-﻿using static System.Diagnostics.Debug;
+using static System.Diagnostics.Debug;
 
 /// <summary>
 /// Class <c>Distance</c> represents the data of any range or distance.
