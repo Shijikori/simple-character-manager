@@ -83,46 +83,6 @@ public class Distance {
     }
 }
 
-// likely not relevant as the information may just be encoded in a spell
-class Shape {
-    public string Type = "Sphere";
-    public Distance Size = new Distance();
-    
-    public Shape(string type, string sizeStr) {
-        Distance tSize = Distance.Parse(sizeStr);
-        
-        Size = tSize;
-        Type = type;
-    }
-
-    public static Shape Parse(string str) {
-        Assert(str.Length > 9); //Assertion extravaganza... '~'
-        Assert(str.IndexOf("S") == 0);
-        Assert(str.IndexOf("(") != -1 && str.IndexOf(")") != -1);
-        Assert(str.IndexOf(",") != -1);
-
-        //idk why it doesn't like "string params" but okay...
-        string paramstr = str.Substring(str.IndexOf("(") + 1, str.IndexOf(")") - (str.IndexOf("(") + 1));
-        string[] sparams = paramstr.Split(",");
-        Assert(sparams.Length == 2);
-        string ssize = "1u";
-        string stype = "";
-        foreach (string par in sparams) {
-            if (par.StartsWith("t")) {
-                stype = par.Substring(par.IndexOf(":")+1);
-            }
-            else if (par.StartsWith("s")) {
-                ssize = par.Substring(par.IndexOf(":")+1);
-            }
-        }
-        return new Shape(stype, ssize);
-    }
-
-    public string Serialize() {
-        return $"S(t:{Type},s:{Size.Serialize()})";
-    }
-}
-
 public class Feature {
     public string Name { get; set; } = string.Empty;
     public int Level { get; set; }
