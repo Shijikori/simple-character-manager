@@ -6,5 +6,5 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public string? SelectedSheet { get; set; }
 
-    public string[] Sheets { get; set; } = new string[3] {"Ivar", "Confidence", "Aurelia"};
+    public string[] Sheets { get; set; } = new string[] {"Ivar", "Confidence", "Aurelia", "Twig", "Erika", "Charles", "Gregory", "Steve", "Ruby"};
 }
