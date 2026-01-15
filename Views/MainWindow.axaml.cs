@@ -3,21 +3,31 @@ using Avalonia.Interactivity;
 
 namespace SCM.Views;
 
-public partial class MainWindow : Window
-{
+public partial class MainWindow : Window {
 
-    public MainWindow()
-    {
+    public MasterSpellbookWindow? SpellbookWindow { get; set; }
+
+    public MainWindow() {
         InitializeComponent();
     }
 
     public void ButtonHandler(object sender, RoutedEventArgs args) {
         Button e = (Button)sender;
-        Console.WriteLine($"{e.Content} has been pressed!");
-        if (e.Name == "LoadCS") {
-            if (this.DataContext is SCM.ViewModels.MainWindowViewModel viewModel) {
-                Console.WriteLine($"{viewModel.SelectedSheet} is being loaded");
-            }
+        switch (e.Name) {
+            case "MasterSpellbook":
+                OpenMasterSpellbook();
+                break;
+            default:
+                break;
         }
+    }
+
+    private void OpenMasterSpellbook() {
+        if (SpellbookWindow != null && SpellbookWindow.IsClosed != true) {
+            SpellbookWindow.Activate();
+            return;
+        }
+        SpellbookWindow = new MasterSpellbookWindow { DataContext = new SCM.ViewModels.MasterSpellbookViewModel() };
+        SpellbookWindow.Show();
     }
 }
