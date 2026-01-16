@@ -7,6 +7,8 @@ public partial class MainWindow : Window {
 
     public MasterSpellbookWindow? SpellbookWindow { get; set; }
 
+    public ClassRegistryWindow? RegistryWindow { get; set; }
+
     public MainWindow() {
         InitializeComponent();
     }
@@ -17,9 +19,21 @@ public partial class MainWindow : Window {
             case "MasterSpellbook":
                 OpenMasterSpellbook();
                 break;
+            case "ClassRegistry":
+                OpenClassRegistry();
+                break;
             default:
                 break;
         }
+    }
+
+    private void OpenClassRegistry() {
+        if (RegistryWindow != null && RegistryWindow.IsClosed != true) {
+            RegistryWindow.Activate();
+            return;
+        }
+        RegistryWindow = new ClassRegistryWindow { DataContext = new SCM.ViewModels.ClassRegistryViewModel() };
+        RegistryWindow.Show();
     }
 
     private void OpenMasterSpellbook() {
