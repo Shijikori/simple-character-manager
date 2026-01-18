@@ -3,10 +3,11 @@
         xmlns:vm="using:SCM.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="340"
-        Width="300"
-        Height="340"
-        CanResize="False"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        Width="800"
+        MinWidth="700"
+        Height="600"
+        CanResize="True"
         x:Class="SCM.Views.MasterSpellbookWindow"
         x:DataType="vm:MasterSpellbookViewModel"
         Icon="/Assets/SCM-icon.png"
@@ -15,7 +16,37 @@
         <vm:MasterSpellbookViewModel/>
     </Design.DataContext>
 
-    <StackPanel>
-        <TextBlock>Test</TextBlock>
-    </StackPanel>
+    <Grid Name="MainLayoutGrid" ColumnDefinitions="*" RowDefinitions="Auto,Auto,Auto" Margin="5">
+        <Grid Name="TopGrid" ColumnDefinitions="*,1.5*" RowDefinitions="*" Margin="5" Grid.Row="0" Grid.Column="0">
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Name="ControlStack" HorizontalAlignment="Left">
+                <Button Name="SaveButton" Margin="5">Save</Button>
+                <Button Name="NewButton" Margin="5">New</Button>
+                <Button Name="LoadButton" Margin="5">Load</Button>
+            </StackPanel>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Watermark="Enter the spell name" HorizontalAlignment="Stretch"/>
+        </Grid>
+        <Grid RowDefinitions="Auto" ColumnDefinitions="*,0.75*,1.25*,*" Grid.Row="1" Grid.Column="0" Margin="5">
+            <Grid ColumnDefinitions="Auto, *" VerticalAlignment="Center" Grid.Column="0">
+                <Label Grid.Column="0" Target="LevelInput" Margin="5" VerticalAlignment="Center">Level</Label>
+                <TextBox Grid.Column="1" Name="LevelInput" Margin="5" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto" RowDefinitions="Auto,Auto" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">
+                <Label Grid.Column="0" Grid.Row="0" Target="Components" Margin="10,5,5,5" VerticalAlignment="Center">Components</Label>
+                <StackPanel Grid.Column="0" Grid.Row="1" Name="Components" Margin="5,0,5,0" Orientation="Horizontal" VerticalAlignment="Top">
+                    <CheckBox Name="ComponentsS" Margin="5,0,5,0" FlowDirection="RightToLeft">S</CheckBox>
+                    <CheckBox Name="ComponentsV" Margin="5,0,5,0" FlowDirection="RightToLeft">V</CheckBox>
+                    <CheckBox Name="ComponentsM" Margin="5,0,5,0" FlowDirection="RightToLeft">M</CheckBox>
+                </StackPanel>
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" VerticalAlignment="Center" Grid.Column="2">
+                <!-- This should be a combobox arrangement instead of a text box since the value is an enum -->
+                <Label Grid.Column="0" Margin="5" VerticalAlignment="Center">Casting Time</Label>
+                <ComboBox Grid.Column="1" Margin="5" Name="CastTimeList" HorizontalAlignment="Stretch" ItemsSource="{Binding CastTimes}" SelectedItem="{Binding SelectedCastTime}"/>
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto" VerticalAlignment="Center" Grid.Column="3">
+                <Label Grid.Column="0" Margin="5" VerticalAlignment="Center">Shape</Label>
+                <TextBox Grid.Column="1" Margin="5" Name="ShapeInput" />
+            </Grid>
+        </Grid>
+    </Grid>
 </Window>
