@@ -45,4 +45,10 @@ public partial class MainWindow : Window {
         SpellbookWindow = new SpellEditorWindow { DataContext = new SCM.ViewModels.SpellEditorViewModel() };
         SpellbookWindow.Show();
     }
+
+    protected override void OnClosed(EventArgs e) {
+        if (SpellbookWindow != null && SpellbookWindow.IsClosed == false) SpellbookWindow.Close();
+        if (RegistryWindow != null && RegistryWindow.IsClosed == false) RegistryWindow.Close();
+        base.OnClosed(e);
+    }
 }

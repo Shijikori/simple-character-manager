@@ -11,7 +11,7 @@
         x:Class="SCM.Views.SpellEditorWindow"
         x:DataType="vm:SpellEditorViewModel"
         Icon="/Assets/SCM-icon.png"
-        Title="Spell Editor">
+        Title="{Binding Title}">
     <Design.DataContext>
         <vm:MasterSpellbookViewModel/>
     </Design.DataContext>
