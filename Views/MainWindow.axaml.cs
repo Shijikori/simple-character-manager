@@ -5,7 +5,7 @@ namespace SCM.Views;
 
 public partial class MainWindow : Window {
 
-    public MasterSpellbookWindow? SpellbookWindow { get; set; }
+    public SpellEditorWindow? SpellbookWindow { get; set; }
 
     public ClassRegistryWindow? RegistryWindow { get; set; }
 
@@ -41,7 +41,8 @@ public partial class MainWindow : Window {
             SpellbookWindow.Activate();
             return;
         }
-        SpellbookWindow = new MasterSpellbookWindow { DataContext = new SCM.ViewModels.MasterSpellbookViewModel() };
+        //SpellbookWindow = new MasterSpellbookWindow { DataContext = new SCM.ViewModels.MasterSpellbook.ViewModel() };
+        SpellbookWindow = new SpellEditorWindow { DataContext = new SCM.ViewModels.SpellEditorViewModel() };
         SpellbookWindow.Show();
     }
 }
