@@ -19,9 +19,9 @@ public class Spell {
     public string Source { get; set; } = string.Empty;
     public List<char> Components { get; set; } = new List<char>();
     public CastTime CastingTime { get; set; }
-    public Distance Range { get; set; } = Distance.Parse("0u");
+    public Distance Range { get; set; } = new Distance { Units = 0 };
     public string Shape { get; set; } = string.Empty;
-    public Distance Size { get; set; } = Distance.Parse("0u");
+    public Distance Size { get; set; } = new Distance { Units = 0 };
     public Dictionary<int, string> Scaling { get; set; } = new Dictionary<int, string>();
     public List<string> Materials { get; set; } = new List<string>();
 
