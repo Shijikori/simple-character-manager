@@ -22,7 +22,7 @@ public class Spell {
     public Distance Range { get; set; } = new Distance { Units = 0 };
     public string Shape { get; set; } = string.Empty;
     public Distance Size { get; set; } = new Distance { Units = 0 };
-    public Dictionary<int, string> Scaling { get; set; } = new Dictionary<int, string>();
+    public Dictionary<string, string> Scaling { get; set; } = new Dictionary<string, string>();
     public List<string> Materials { get; set; } = new List<string>();
 
     public bool IsTouch {

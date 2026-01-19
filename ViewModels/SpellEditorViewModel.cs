@@ -11,7 +11,8 @@ public partial class SpellEditorViewModel : ViewModelBase {
     public bool Material { get; set; } = false;
     public string Materials { get; set; } = string.Empty;
     public string Level { get; set; } = string.Empty;
-    public string SpellName {get; set; } = string.Empty;
+    public string SpellName { get; set; } = string.Empty;
+    public string SpellDescription { get; set; } = string.Empty;
     public string Range { get; set; } = string.Empty;
     public string Shape { get; set; } = string.Empty;
     public string Size { get; set; } = string.Empty;
